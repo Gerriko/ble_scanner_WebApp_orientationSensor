@@ -22,6 +22,7 @@ The application is designed to work with BLE peripherals that expose orientation
 *   **Notification Control:** Allows users to start/stop notifications for individual characteristics.
 *   **Status & Error Reporting:** Provides feedback on the application's state and any issues encountered.
 *   **Responsive UI:** Adapts to different screen sizes.
+*   **JSdoc documentation:** The "out" folder contains the app's documentation about the javascript used. Documentation delivered using JSdoc.
 
 ## Prerequisites: Enabling Web Bluetooth
 
