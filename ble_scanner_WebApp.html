@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BLE Device Scanner & Characteristic Lister</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #0056b3;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        #status, #error {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        #status {
+            background-color: #e6f7ff;
+            border: 1px solid #91d5ff;
+        }
+        #error {
+            background-color: #fff1f0;
+            border: 1px solid #ffccc7;
+            color: #cf1322;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li.device-item {
+            padding: 8px;
+            margin-bottom: 5px;
+            background-color: #f9f9f9;
+            border: 1px solid #eee;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        li.device-item:hover {
+            background-color: #e9e9e9;
+        }
+        .section-title {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>BLE Orientation Sensor Device Scanner</h1>
+
+        <p>
+            This app will scan for BLE devices advertising a specific 128-bit Service UUID.
+            <br>
+            <strong>Target Service UUID:</strong> <span id="targetServiceUUIDDisplay">YOUR_SPECIFIC_128_BIT_SERVICE_UUID</span>
+        </p>
+        <p>
+            Any BLE device that is advertising the specified UUID, will be listed below when found.
+            <br>
+            If you then click on any device name shown, the app will connect and check the characterstics found on the device.
+        </p>
+        <p>
+            If the characterstics found meet app requirements, you'll be given an option to visualise the orientation data in 3D. 
+        </p>
+
+        <button id="scanButton">Scan for Devices</button>
+        <div id="status">Status: Idle</div>
+        <div id="error" style="display:none;"></div>
+
+        <div class="section-title">Found Devices:</div>
+        <ul id="deviceList">
+            </ul>
+
+        <div id="connectionInfo" style="display:none;">
+            <div class="section-title">Connected to: <span id="connectedDeviceName"></span></div>
+            <div class="section-title">Characteristics for Service <span id="connectedServiceUUID"></span>:</div>
+            <ul id="characteristicList">
+                </ul>
+            <button id="disconnectButton" style="display:none;">Disconnect</button>
+        </div>
+
+        <div id="threeDVisualization" style="display:none;">
+            <div class="section-title">3D Model Visualization, Orientation Data and Controls:</div>
+            <button id="show3DModelButton" style="display:none;">Show Model</button>
+            <div id="threeDCanvasContainer" style="margin-top: 10px; min-height: 200px; background-color: #f0f0f0;"></div>
+            <div id="threeDControls" style="margin-top: 10px; display:none;">
+                <div>
+                    <label for="roll">Roll (-X):</label>
+                    <input type="range" id="roll" name="roll" min="-90" max="90" value="0">
+                    <span id="rollValue">0</span>°
+                </div>
+                <div>
+                    <label for="pitch">Pitch (-Y):</label>
+                    <input type="range" id="pitch" name="pitch" min="-90" max="90" value="0">
+                    <span id="pitchValue">0</span>°
+                </div>
+                <div>
+                    <label for="yaw">Yaw (-Z):</label>
+                    <input type="range" id="yaw" name="yaw" min="-180" max="180" value="0">
+                    <span id="yawValue">0</span>°
+                </div>
+            </div>
+            <div id="bleDataDisplay" style="display:none; margin-top: 20px;">
+                <div class="section-title">Live BLE Data</div>
+                <table id="bleDataTable" border="1" style="width:100%; border-collapse: collapse; margin-top:10px;">
+                    <thead>
+                        <tr>
+                            <th>Characteristic</th>
+                            <th>Raw Value</th>
+                            <th>Formatted Value</th>
+                            <th>Unit</th>
+                            <th>Timestamp</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Rows will be added here by JS -->
+                    </tbody>
+                </table>
+
+                <div id="notificationToggles" style="margin-top: 10px;">
+                    <!-- Toggle buttons will be added here by JS -->
+                </div>
+
+                <div class="section-title" style="margin-top: 20px;">Characteristic Presentation Format (0x2904) Details</div>
+                <div id="descriptorInfoOutput" style="margin-top:10px; white-space: pre-wrap; background-color: #f9f9f9; padding: 10px; border-radius: 4px;"></div>
+            </div>
+        </div>
+    </div>
+<script src="orientation_model.js"></script>
+</body>
+</html>
