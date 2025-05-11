@@ -1,6 +1,6 @@
 # BLE Orientation Sensor Web App
 
-![BLE Scanner Home Page](image/home_page_screenshot.png)
+![BLE Scanner Home Page](/image/home_page_screenshot.png)
 
 ## Overview
 
