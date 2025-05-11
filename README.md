@@ -1,12 +1,12 @@
 # BLE Orientation Sensor Web App
 
-![BLE Scanner Home Page](/image/BLE_Scanner_Web_App.png)
-
 ## Overview
 
 This demo web application scans for Bluetooth Low Energy (BLE) devices that advertise a specific 128-bit Service UUID. It allows users to connect to a discovered device, inspect its characteristics, and if the device provides orientation data (Pitch, Roll, Heading), visualize this data in real-time using a 3D model powered by Three.js.
 
 The application is designed to work with BLE peripherals that expose orientation data through specific characteristics.
+
+![BLE Scanner Home Page](/image/BLE_Scanner_Web_App.png)
 
 ## Features
 
